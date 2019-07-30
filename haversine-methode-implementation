@@ -1,0 +1,45 @@
+import java.util.ArrayList;
+
+public class MyClass {
+    
+    
+    public static class Haversine {
+    public static double calculate(double lat1, double lon1, double lat2, double lon2) {
+        double R = 6372.8; // In kilometers
+        double dLat = toRadians(lat2 - lat1);
+        double dLon = toRadians(lon2 - lon1);
+        lat1 = toRadians(lat1);
+        lat2 = toRadians(lat2);
+        
+ 
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+    return R * 2 * Math.asin(Math.sqrt(a));
+     }
+ 
+  public static double toRadians(double angle) {
+    return Math.PI * angle / 180.0;
+    }
+    
+    }
+    
+    public static void main(String args[]) {
+        double[] lokasiAwal={-6.189015,106.835904};
+        double[][] lokasiTarget={
+            {-6.186054,106.836448},{-6.1893347,106.8337101},{-6.187393,106.834316},{-6.186252,106.833693},{-6.190119,106.835752}
+        };
+        ArrayList<Integer> listJarak = new ArrayList<Integer>();
+        
+        for (int i = 0; i < lokasiTarget.length; ++i) {
+        double x= Haversine.calculate(lokasiAwal[0],lokasiAwal[1], lokasiTarget[i][0], lokasiTarget[i][1]);
+        int jarak = (int)Math.round(x*1000);
+        if(jarak < 350){
+            listJarak.add(jarak);
+        }
+        };
+        
+        for(int j = 0; j < listJarak.size();++j){
+        System.out.println("Jarak dari lokasi terdekat = "+ (j+1) + " "+ listJarak.get(j) + " meter");
+        }
+    }
+}
